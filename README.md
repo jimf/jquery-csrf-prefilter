@@ -79,6 +79,14 @@ $.ajaxPrefilter(createCsrfPrefilter(tokenValue, { query: '_csrf' }));`
 Request methods to be ignored for the purposes of injecting the CSRF token. By
 default, this value is `['GET', 'OPTIONS', 'HEAD', 'TRACE']`.
 
+## Changelog
+
+## [1.0.1] - 2015-07-09
+- Fix `data` option with requests of content type application/x-www-form-urlencoded
+
+## 1.0.0 - 2015-06-25
+- Initial release
+
 ## License
 
 MIT
@@ -92,3 +100,4 @@ MIT
 [dep-badge]: https://img.shields.io/david/jimf/jquery-csrf-prefilter.svg
 [dep-status]: https://david-dm.org/jimf/jquery-csrf-prefilter
 [jquery-ajaxprefilter]: http://api.jquery.com/jquery.ajaxprefilter/
+[1.0.1]: https://github.com/jimf/jquery-csrf-prefilter/compare/1.0.0...1.0.1
