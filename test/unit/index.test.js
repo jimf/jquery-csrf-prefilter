@@ -77,10 +77,11 @@ describe('jQuery CSRF prefilter factory', function() {
         });
     });
 
-    describe('when prefilter created with data option', function() {
+    describe('when prefilter created with data option and content type application/json', function() {
 
         beforeEach(function() {
             opts.data = '_csrf';
+            options.contentType = 'application/json';
             prefilter = createCsrfPrefilter(tokenValue, opts);
         });
 
@@ -102,6 +103,38 @@ describe('jQuery CSRF prefilter factory', function() {
                     options.type = method;
                     prefilter(options, originalOptions, jqXHR);
                     assert.strictEqual(JSON.parse(options.data)._csrf, tokenValue);
+                    assert(!jqXHR.setRequestHeader.calledWith('X-CSRF-Token', tokenValue));
+                });
+            });
+        });
+    });
+
+    describe('when prefilter created with data option and content type application/x-www-form-urlencoded', function() {
+
+        beforeEach(function() {
+            opts.data = '_csrf';
+            options.contentType = 'application/x-www-form-urlencoded';
+            prefilter = createCsrfPrefilter(tokenValue, opts);
+        });
+
+        describe('and ajax request is safe', function() {
+
+            it('should not inject specified data into request', function() {
+                safeMethods.forEach(function(method) {
+                    options.type = method;
+                    prefilter(options, originalOptions, jqXHR);
+                    assert(!options.data);
+                });
+            });
+        });
+
+        describe('and ajax request is unsafe', function() {
+
+            it('should inject specified data into request', function() {
+                unsafeMethods.forEach(function(method) {
+                    options.type = method;
+                    prefilter(options, originalOptions, jqXHR);
+                    assert(~options.data.indexOf('_csrf=' + tokenValue), tokenValue);
                     assert(!jqXHR.setRequestHeader.calledWith('X-CSRF-Token', tokenValue));
                 });
             });
@@ -152,6 +185,7 @@ describe('jQuery CSRF prefilter factory', function() {
             opts.header = 'X-CSRFToken';
             opts.data = '_csrf';
             opts.query = '_csrf';
+            options.contentType = 'application/json';
             prefilter = createCsrfPrefilter(tokenValue, opts);
         });
 

@@ -15,9 +15,15 @@ function injectHeader(header, tokenValue, jqXHR) {
 }
 
 function injectData(tokenValue, options, key) {
-    var data = options.data ? JSON.parse(options.data) : {};
-    data[key] = tokenValue;
-    options.data = JSON.stringify(data);
+    var data;
+    if (~options.contentType.indexOf('application/json')) {
+        data = options.data ? JSON.parse(options.data) : {};
+        data[key] = tokenValue;
+        options.data = JSON.stringify(data);
+    } else {
+        options.data += options.data ? '&' : '';
+        options.data += key + '=' + tokenValue;
+    }
 }
 
 function injectQuery(tokenValue, options, param) {
