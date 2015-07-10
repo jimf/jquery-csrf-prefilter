@@ -7,7 +7,9 @@
     "coveralls": "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- test/unit/index.test.js",
     "lint": "jshint .",
-    "test": "mocha test/unit/index.test.js",
+    "test": "npm run test-unit && npm run test-integration",
+    "test-integration": "karma start",
+    "test-unit": "mocha test/unit/index.test.js",
     "validate": "npm run lint && npm test && npm run coveralls"
   },
   "repository": {
@@ -30,8 +32,14 @@
   "devDependencies": {
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.16",
+    "jquery": "^2.1.4",
     "jshint": "^2.8.0",
+    "karma": "^0.12.37",
+    "karma-browserify": "^4.2.1",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.0",
     "mocha": "^2.2.5",
+    "phantomjs": "^1.9.17",
     "sinon": "^1.15.3"
   }
 }
