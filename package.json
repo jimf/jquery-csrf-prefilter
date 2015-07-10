@@ -1,6 +1,6 @@
 {
   "name": "jquery-csrf-prefilter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "jQuery AJAX prefilter for adding a CSRF token to each request",
   "main": "index.js",
   "scripts": {
