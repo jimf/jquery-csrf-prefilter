@@ -3,6 +3,13 @@
 var SAFE_METHODS = 'GET OPTIONS HEAD TRACE'.split(' '),
     DEFAULT_HEADER = 'X-CSRF-Token';
 
+/**
+ * Is the given HTTP method (e.g., GET) non-destructive?
+ *
+ * @param {string} method HTTP method to test
+ * @param {string[]} [safeMethods] HTTP methods to consider as "safe"
+ * @return {boolean}
+ */
 function isSafeMethod(method, safeMethods) {
     method = method.toUpperCase();
     return (safeMethods || SAFE_METHODS).some(function(safeMethod) {
@@ -10,10 +17,24 @@ function isSafeMethod(method, safeMethods) {
     });
 }
 
+/**
+ * Inject CSRF token via header.
+ *
+ * @param {string} header Header name to create
+ * @param {string} tokenValue CSRF token value
+ * @param {object} jqXHR jQuery jqXHR object
+ */
 function injectHeader(header, tokenValue, jqXHR) {
     jqXHR.setRequestHeader(header, tokenValue);
 }
 
+/**
+ * Inject CSRF token via POST body
+ *
+ * @param {string} tokenValue CSRF token value
+ * @param {object} options jQuery prefilter options
+ * @param {string} key POST data key
+ */
 function injectData(tokenValue, options, key) {
     var data;
     if (~options.contentType.indexOf('application/json')) {
@@ -26,11 +47,27 @@ function injectData(tokenValue, options, key) {
     }
 }
 
+/**
+ * Inject CSRF token via query param.
+ *
+ * @param {string} tokenValue CSRF token value
+ * @param {object} options jQuery prefilter options
+ * @param {string} param Query param key
+ */
 function injectQuery(tokenValue, options, param) {
     options.url += ~options.url.indexOf('?') ? '&' : '?';
     options.url += param + '=' + tokenValue;
 }
 
+/**
+ * Configure a jQuery CSRF prefilter callback.
+ *
+ * @param {string|function} tokenValue CSRF token value
+ * @param {object} [opts] Configuration options
+ * @param {string} [options.header] Inject token with given header
+ * @param {string} [options.data] Inject token with given POST body key
+ * @param {string} [options.query] Inject token with given query param
+ */
 module.exports = function(tokenValue, opts) {
     opts = opts || {};
 
