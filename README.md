@@ -16,12 +16,13 @@ Install using npm:
 
 ## Usage
 
-__jquery-csrf-prefilter__ is a factory function that, given a CSRF token
-string, will return a function that can be passed to `$.ajaxPrefilter` to
-inject the token into subsequent AJAX requests. By default, this prefilter will
-add the token via a `X-CSRF-Token` header with all requests that are not of the
-types GET, OPTIONS, HEAD, or TRACE. This functionality can be further
-customized with a second `options` param.
+__jquery-csrf-prefilter__ is a factory function that, given a CSRF token string
+(or a function that returns the CSRF token string), will return a function that
+can be passed to `$.ajaxPrefilter` to inject the token into subsequent AJAX
+requests. By default, this prefilter will add the token via a `X-CSRF-Token`
+header with all requests that are not of the types GET, OPTIONS, HEAD, or
+TRACE. This functionality can be further customized with a second `options`
+param.
 
 Basic example which adds a `X-CSRF-Token` header with each POST, PUT, PATCH,
 and DELETE request:
@@ -38,7 +39,7 @@ $.ajaxPrefilter(createCsrfPrefilter(tokenValue));
 
 The following options may be specified when creating a CSRF prefilter:
 
-### `header` (string)
+#### `header` (string)
 
 Specify the header that is to be used. Replaces the default `X-CSRF-Token`
 header.  This option may be specified in addition to `data` and/or `query`; all
@@ -50,7 +51,7 @@ Example:
 $.ajaxPrefilter(createCsrfPrefilter(tokenValue, { header: 'X-CSRFToken' }));`
 ```
 
-### `data` (string)
+#### `data` (string)
 
 Key that is to be added to the form/JSON data payload of the request. Replaces
 the default `X-CSRF-Token` header.  This option may be specified in addition to
@@ -62,7 +63,7 @@ Example:
 $.ajaxPrefilter(createCsrfPrefilter(tokenValue, { data: '_csrf' }));`
 ```
 
-### `query` (string)
+#### `query` (string)
 
 Key that is to be added as a query param to the request. Replaces the default
 `X-CSRF-Token` header.  This option may be specified in addition to `header`
@@ -74,17 +75,20 @@ Example:
 $.ajaxPrefilter(createCsrfPrefilter(tokenValue, { query: '_csrf' }));`
 ```
 
-### `ignoreMethods` (array)
+#### `ignoreMethods` (array)
 
 Request methods to be ignored for the purposes of injecting the CSRF token. By
 default, this value is `['GET', 'OPTIONS', 'HEAD', 'TRACE']`.
 
 ## Changelog
 
-## [1.0.1] - 2015-07-09
+#### [1.1.0] - 2015-12-30
+- Allow `tokenValue` to be specified as a function
+
+#### [1.0.1] - 2015-07-09
 - Fix `data` option with requests of content type application/x-www-form-urlencoded
 
-## 1.0.0 - 2015-06-25
+#### 1.0.0 - 2015-06-25
 - Initial release
 
 ## License
@@ -100,4 +104,5 @@ MIT
 [dep-badge]: https://img.shields.io/david/jimf/jquery-csrf-prefilter.svg
 [dep-status]: https://david-dm.org/jimf/jquery-csrf-prefilter
 [jquery-ajaxprefilter]: http://api.jquery.com/jquery.ajaxprefilter/
+[1.1.0]: https://github.com/jimf/jquery-csrf-prefilter/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/jimf/jquery-csrf-prefilter/compare/1.0.0...1.0.1
