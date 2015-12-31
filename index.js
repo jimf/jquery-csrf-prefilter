@@ -35,10 +35,10 @@ module.exports = function(tokenValue, opts) {
     opts = opts || {};
 
     return function(options, originalOptions, jqXHR) {
-        // Get tokenValue
-        tokenValue = typeof tokenValue === "function" ? tokenValue() : tokenValue;
-        
+        /*jshint maxcomplexity:7*/
         if (isSafeMethod(options.type, opts.ignoreMethods)) { return; }
+
+        tokenValue = typeof tokenValue === 'function' ? tokenValue() : tokenValue;
 
         if (opts.header) { injectHeader(opts.header, tokenValue, jqXHR); }
         if (opts.data)   { injectData(tokenValue, options, opts.data); }

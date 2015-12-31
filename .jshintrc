@@ -21,7 +21,7 @@
     "plusplus": true,
     "quotmark": true,
     "regexp": true,
-    "strict": true,
+    "strict": "global",
     "trailing": true,
     "undef": true,
     "unused": true
