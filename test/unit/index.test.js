@@ -234,4 +234,20 @@ describe('jQuery CSRF prefilter factory', function() {
             });
         });
     });
+
+    describe('when tokenValue is specified as a function', function() {
+
+        beforeEach(function() {
+            tokenValue = function() { return 'some-csrf-token'; };
+            prefilter = createCsrfPrefilter(tokenValue);
+        });
+
+        it('should inject "X-CSRF-Token" header into unsafe requests', function() {
+            unsafeMethods.forEach(function(method) {
+                options.type = method;
+                prefilter(options, originalOptions, jqXHR);
+                assert(jqXHR.setRequestHeader.calledWith('X-CSRF-Token', tokenValue()));
+            });
+        });
+    });
 });
