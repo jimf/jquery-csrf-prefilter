@@ -35,6 +35,9 @@ module.exports = function(tokenValue, opts) {
     opts = opts || {};
 
     return function(options, originalOptions, jqXHR) {
+        // Get tokenValue
+        tokenValue = typeof tokenValue === "function" ? tokenValue() : tokenValue;
+        
         if (isSafeMethod(options.type, opts.ignoreMethods)) { return; }
 
         if (opts.header) { injectHeader(opts.header, tokenValue, jqXHR); }
