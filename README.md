@@ -29,7 +29,7 @@ and DELETE request:
 
 ```js
 var $ = require('jquery'),
-    createCsrfPrefilter = require('jquery-csrf-token'),
+    createCsrfPrefilter = require('jquery-csrf-prefilter'),
     tokenValue = $('meta[name="csrf-token"]').attr('content');
 
 $.ajaxPrefilter(createCsrfPrefilter(tokenValue));
